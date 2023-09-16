@@ -2,6 +2,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import selenium.common
+import time
+
 class Bot:
     """Bot used as high level interaction with web-browser via Javascript exec"""
     def __init__(self, bot):
@@ -13,10 +15,14 @@ class Bot:
     def getVideoUploadInput(self):
         # Button is nested in iframe document. Select iframe first then select upload button
         WebDriverWait(self.bot, 10).until(EC.presence_of_element_located((By.TAG_NAME, "iframe")))
-        self.bot.switch_to.frame(0)
-        self.bot.implicitly_wait(1)
-        file_input_element = self.bot.find_elements(By.CLASS_NAME, "upload-btn-input")[0]
-        # document.getElementsByClassName("op-part")[0].childNodes[1]  # New locator
+        time.sleep(5)
+        iframe = self.bot.find_element(By.TAG_NAME, "iframe")
+        self.bot.switch_to.frame(iframe)
+        self.bot.implicitly_wait(2)
+        time.sleep(10)
+        self.bot.execute_script("document.querySelectorAll('iframe')[0]?.contentDocument.body.querySelector('input').setAttribute('style', 'display:flex;')")
+        file_input_element = self.bot.find_element(By.TAG_NAME, "input")
+        print(f'file input element ===> {file_input_element}')
         return file_input_element
 
     def getCaptionElem(self):

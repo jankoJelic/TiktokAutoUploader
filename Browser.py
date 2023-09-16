@@ -1,4 +1,4 @@
-import undetected_chromedriver.v2 as uc
+import undetected_chromedriver as uc
 from fake_useragent import UserAgent, FakeUserAgentError
 # import os
 # https://github.com/ultrafunkamsterdam/undetected-chromedriver

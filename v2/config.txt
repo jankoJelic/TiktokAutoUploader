@@ -11,4 +11,4 @@ TIKTOK_DIM = (1920, 1080)
 TEMP_YOUTUBE_VID_DIR = ""
 LANG = "en"
 BASE_URL = "https://www.tiktok.com/upload?lang"
-IMAGEMAGICK_BINARY = "C:\Program Files\ImageMagick-7.0.9-Q16\convert.exe"
+IMAGEMAGICK_BINARY = "/Users/markonovakovic/Desktop/ImageMagick-7.0.10"
