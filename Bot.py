@@ -15,18 +15,16 @@ class Bot:
     def getVideoUploadInput(self):
         # Button is nested in iframe document. Select iframe first then select upload button
         WebDriverWait(self.bot, 10).until(EC.presence_of_element_located((By.TAG_NAME, "iframe")))
-        time.sleep(5)
+        time.sleep(4)
         iframe = self.bot.find_element(By.TAG_NAME, "iframe")
         self.bot.switch_to.frame(iframe)
         self.bot.implicitly_wait(2)
-        time.sleep(10)
+        time.sleep(5)
         self.bot.execute_script("document.querySelectorAll('iframe')[0]?.contentDocument.body.querySelector('input').setAttribute('style', 'display:flex;')")
         file_input_element = self.bot.find_element(By.TAG_NAME, "input")
-        print(f'file input element ===> {file_input_element}')
         return file_input_element
 
     def getCaptionElem(self):
-        # Button Works
         self.bot.implicitly_wait(3)
         self.bot.execute_script(
             f'var element = document.getElementsByClassName("public-DraftStyleDefault-block")[0].children['
@@ -76,29 +74,15 @@ class Bot:
             " please submit yourself and edit submit button placement.!!")
 
     def uploadButtonClick(self):
-        # Button Works
-        try:
-            """Newer layout."""
-            WebDriverWait(self.bot, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "op-part-v2")))
-            operation_elems = self.bot.find_elements(By.CLASS_NAME, "op-part-v2")[0]
-            upload_elem = operation_elems.find_elements(By.XPATH, './*')[1]
-            upload_elem.click()
-        except Exception as e:
-            try:
-                upload_name = "Post"
-                self.bot.find_element(By.XPATH, f'//button[text()="{upload_name}"]')
-            except Exception as e:
-                try:
-                    """Older Layout"""
-                    self.click_elem(
-                        'document.getElementsByClassName("btn-post")[0].click()',
-                        "Javascript had trouble finding the post button with given selector,"
-                        " please submit yourself and edit submit button placement.!!")
-                except Exception as e:
-                    print("Could not upload, please upload manually.")
-
-
-
+        time.sleep(6)
+        post_button_xpath = '//div[text()="Post"]'
+        WebDriverWait(self.bot, 10).until(EC.element_to_be_clickable((By.XPATH, post_button_xpath)))
+        time.sleep(12)
+        self.bot.execute_script("document.body.querySelector('div[class*=btn-post]').querySelector('button').click()")
+        WebDriverWait(self.bot, 30).until(EC.element_to_be_clickable((By.XPATH, '//div[text()="Upload another video"]')))
+        time.sleep(3)
+        self.bot.quit()
+     
     def click_elem(self, javascript_script, error_msg):
         try:
             self.bot.execute_script(javascript_script)

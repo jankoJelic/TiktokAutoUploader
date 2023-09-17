@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
 
     # You can also choose to upload a file directly with no editing or cropping of the video.
-    tiktok_bot.upload.directUpload("test.mp4", private=True, test=True)
+    tiktok_bot.upload.direct_upload("test.mp4")
 
 
     ####################################################################################################################

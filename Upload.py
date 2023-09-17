@@ -133,7 +133,7 @@ class Upload:
         return video_dir
 
 
-    def directUpload(self, filename, private=False, test=False):
+    def direct_upload(self, filename):
         if self.bot is None:
             self.bot = Browser().getBot()
             self.webbot = Bot(self.bot)
@@ -149,7 +149,9 @@ class Upload:
             print("Major error, cannot find the file upload button, please update getVideoUploadInput() in Bot.py")
             file_input_element = None
             exit()
+            
         abs_path = os.path.join(os.getcwd(), filename)
+    
         try:
             file_input_element.send_keys(abs_path)
         except StaleElementReferenceException as e:
@@ -161,21 +163,6 @@ class Upload:
                 print("Major error, cannot find the file upload button, please update getVideoUploadInput() in Bot.py")
                 exit()
 
-
-        # We need to wait until it is uploaded and then clear input.
-
-        self.addCaptions()
-        utils.randomTimeQuery()
-        if private:
-            self.webbot.selectPrivateRadio()  # private video selection
-            utils.randomTimeQuery()
-        else:
-            """
-            self.webbot.selectPublicRadio()  # public video selection
-            utils.randomTimeQuery()
-            """
-            pass
-        if not test:
-
-            self.webbot.uploadButtonClick()  # upload button
+        self.webbot.uploadButtonClick()
         input("Press any button to exit")
+            
